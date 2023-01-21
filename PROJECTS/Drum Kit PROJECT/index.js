@@ -13,15 +13,19 @@ for (var i = 0; i < n; i++) {
 
   btn.addEventListener("click", function () {
         makeSound(this.innerHTML);
+
+        buttonAnimation(this.innerHTML);
   });
 }
 
 document.addEventListener('keypress',function(event){
     makeSound(event.key);
+
+    buttonAnimation(event.key);
 })
 
 function makeSound(key){
-    
+
     switch (key) {
         case "w":
           var tom1 = new Audio("sounds/tom-1.mp3");
@@ -60,4 +64,14 @@ function makeSound(key){
   
         default:
     }
+}
+
+function buttonAnimation(currentKey){
+    var activeBtn = document.querySelector("."+currentKey);
+
+    activeBtn.classList.add("pressed");
+
+    setTimeout(() => {
+        activeBtn.classList.remove("pressed");
+    }, 100);
 }
