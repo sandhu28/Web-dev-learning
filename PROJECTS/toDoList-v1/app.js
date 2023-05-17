@@ -1,29 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const date = require(__dirname + "/date.js");
+
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
+
 
 app.set('view engine','ejs');
 
 
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-let items = ['Buy Food',"Cook Food","Eat Food"];
-let workItems = [];
+const items = ['Buy Food',"Cook Food","Eat Food"];
+const workItems = [];
 
 app.get('/', (req, res) => {
 
-    const date = new Date();
-    const options = {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    };
-
-    const day = date.toLocaleDateString('en-US',options);
+    const day = date.getDate();
 
     res.render("list",{listType: day,newItem: items});
 
