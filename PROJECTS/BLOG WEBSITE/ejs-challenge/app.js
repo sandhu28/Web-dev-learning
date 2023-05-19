@@ -39,22 +39,34 @@ app.get('/compose',function(req,res){
 })
 
 app.get('/posts/:postType',function(req,res){
+
   const postType = req.params.postType;
   console.log(postType);
 
   posts.forEach(function(post){
-    if(postType === post.postTitle){
-      console.log("Match found");
+    if(lodash.lowerCase(postType) === lodash.lowerCase(post.postTitle)){
+      res.render('post',{title:post.postTitle,content:post.postBody});
+    }
+    else{
+      console.log("Match not found!");
     }
   })
 
 })
 
+const maxLength = 100;
+
 app.post('/compose',function(req,res){
+
+  let postContent = req.body.postBody;
+
+  // if(postContent.length > 20){
+  //   postContent = postContent.substring(0,maxLength) + "...";
+  // }
   
   const post = {
     postTitle: req.body.postTitle,
-    postBody: req.body.postBody
+    postBody: postContent
   };
 
   posts.push(post);
