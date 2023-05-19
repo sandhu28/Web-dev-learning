@@ -93,15 +93,39 @@ app.post("/", function (req, res) {
 
 app.post("/delete", function (req, res) {
   const id = req.body.checkBox;
-  Item.findByIdAndRemove(id)
+  const listName = req.body.ListType;
+  console.log(listName);
+
+  List.find({ name: listName })
     .then((ele) => {
-      console.log("Successfully deleted item");
-      console.log(ele);
+      if (ele.length == 0) {
+        Item.findByIdAndRemove(id)
+          .then((del) => {
+            console.log("Successfully deleted item");
+            console.log(del);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        res.redirect("/");
+      } else {
+        List.findOneAndUpdate(
+          { name: listName },
+          { $pull: { items: { _id: id } } }
+        )
+          .then((del) => {
+            console.log("Successfully deleted item");
+            console.log(del);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        res.redirect("/" + listName);
+      }
     })
     .catch((err) => {
       console.log(err);
     });
-  res.redirect("/");
 });
 
 app.get("/:typeOfList", function (req, res) {
