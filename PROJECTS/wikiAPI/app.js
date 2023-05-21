@@ -50,51 +50,95 @@ const article6 = new Article({
     content: "My most beloved sport:)"
 });
 
-const defaultArticles = [article1, article2, article3, article4];
+const defaultArticles = [article1, article2, article3, article4, article5, article6];
 
 // Article.insertMany(defaultArticles);
 
-// GET all articles
-app.get('/articles', function (req, res) {
-    Article.find()
-        .then((arr) => {
-            res.send(arr);
-        })
-        .catch((err) => {
-            res.send(err);
-        })
-});
+// methods targeting single route
+app.route("/articles")
 
-// POST new article
-app.post('/articles', function (req, res) {
+    .get(function (req, res) {
+        Article.find()
+            .then((arr) => {
+                res.send(arr);
+            })
+            .catch((err) => {
+                res.send(err);
+            })
+    })
 
-    const newArticle = new Article({
-        title: req.body.title,
-        content: req.body.content
+    .post(function (req, res) {
+
+        const newArticle = new Article({
+            title: req.body.title,
+            content: req.body.content
+        });
+
+        newArticle.save()
+            .then((ele) => {
+                res.send('Successfully added a new article.');
+            })
+            .catch((err) => {
+                res.send(err);
+            })
+
+    })
+
+    .delete(function (req, res) {
+        Article.deleteMany({})
+            .then((ele) => {
+                console.log(ele);
+                res.send('Successfully deleted all articles');
+            })
+            .catch((err) => {
+                res.send(err);
+            })
     });
-
-    newArticle.save()
-        .then((ele) => {
-            res.send('Successfully added a new article.');
-        })
-        .catch((err) => {
-            res.send(err);
-        })
-
-})
-
-app.delete('/articles', function (req, res) {
-    Article.deleteMany({})
-        .then((ele) => {
-            console.log(ele);
-            res.send('Successfully deleted all articles');
-        })
-        .catch((err) => {
-            res.send(err);
-        })
-})
 
 
 app.listen(3000, function () {
     console.log("Server is running on port 3000");
 })
+
+
+
+
+// // GET all articles
+// app.get('/articles', function (req, res) {
+//     Article.find()
+//         .then((arr) => {
+//             res.send(arr);
+//         })
+//         .catch((err) => {
+//             res.send(err);
+//         })
+// });
+
+// // POST new article
+// app.post('/articles', function (req, res) {
+
+//     const newArticle = new Article({
+//         title: req.body.title,
+//         content: req.body.content
+//     });
+
+//     newArticle.save()
+//         .then((ele) => {
+//             res.send('Successfully added a new article.');
+//         })
+//         .catch((err) => {
+//             res.send(err);
+//         })
+
+// })
+
+// app.delete('/articles', function (req, res) {
+//     Article.deleteMany({})
+//         .then((ele) => {
+//             console.log(ele);
+//             res.send('Successfully deleted all articles');
+//         })
+//         .catch((err) => {
+//             res.send(err);
+//         })
+// })
