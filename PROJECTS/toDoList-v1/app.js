@@ -11,9 +11,15 @@ const mongoose = require("mongoose");
 
 app.set("view engine", "ejs");
 
-mongoose.connect("mongodb://127.0.0.1:27017/todoListDB", {
-  useNewUrlParser: true,
-});
+// mongoose.connect("mongodb://127.0.0.1:27017/todoListDB", {
+//   useNewUrlParser: true,
+// });
+mongoose.connect(
+  "mongodb+srv://sandhu:mongodb@cluster0.jicymuz.mongodb.net/todoListDB",
+  {
+    useNewUrlParser: true,
+  }
+);
 
 const itemsSchema = {
   name: String,
@@ -162,6 +168,6 @@ app.get("/:typeOfList", function (req, res) {
 //   res.render("about");
 // });
 
-app.listen(3000, (req, res) => {
+app.listen(process.env.PORT || 3000, (req, res) => {
   console.log("Server is running on port 3000");
 });
