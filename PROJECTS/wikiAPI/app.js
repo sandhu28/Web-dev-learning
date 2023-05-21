@@ -50,11 +50,17 @@ const article6 = new Article({
     content: "My most beloved sport:)"
 });
 
+const article7 = new Article({
+    title: 'chat GPT',
+    content: "AI friend of mine who is always ready to help and do my work."
+});
+
 const defaultArticles = [article1, article2, article3, article4, article5, article6];
+// const defaultArticles = [article7];
 
 // Article.insertMany(defaultArticles);
 
-// methods targeting single route
+// methods targeting single route- chaining the routes
 app.route("/articles")
 
     .get(function (req, res) {
@@ -93,6 +99,70 @@ app.route("/articles")
             .catch((err) => {
                 res.send(err);
             })
+    });
+
+// requests targeting a specific article
+app.route('/articles/:articleTitle')
+
+    .get(function (req, res) {
+        Article.findOne({ title: req.params.articleTitle })
+            .then((ele) => {
+                if (ele) {
+                    res.send(ele);
+                }
+                else {
+                    res.send('No article found with that title.');
+                }
+            })
+            .catch((err) => {
+                res.send(err);
+            });
+    })
+
+    .put(function (req, res) {
+        Article.findOneAndUpdate(
+            { title: req.params.articleTitle },
+            { title: req.body.title, content: req.body.content },
+        )
+            .then((ele) => {
+                console.log(ele);
+                res.send('Successfully updated article.');
+            })
+            .catch((err) => {
+                res.send(err);
+            });
+
+    })
+
+    .patch(function (req, res) {
+        Article.findOneAndUpdate(
+            { title: req.params.articleTitle },
+            { title: req.body.title, content: req.body.content },
+        )
+            .then((ele) => {
+                console.log(ele);
+                res.send('Successfully updated article.');
+            })
+            .catch((err) => {
+                res.send(err);
+            });
+
+    })
+
+    .delete(function (req, res) {
+        Article.deleteOne(
+            { title: req.params.articleTitle }
+        )
+            .then((ele) => {
+                console.log(ele);
+                res.send('Successfully deleted article.');
+            }
+            )
+            .catch((err) => {
+                res.send(err);
+            }
+            );
+
     });
 
 
