@@ -1,13 +1,16 @@
 <%- include('partials/header'); -%>
 
-<h1>Home</h1>
 
-<p><%= homeContent %></p>
 
-<% postContent.forEach(function(post){ %>
-    <h1><%= post.postTitle %></h1>
-    <p><%= post.postBody.substring(0,100) + "..."  %> <a href="/posts/<%= post.postTitle %>">Read More</a></p>
-    
-<% }) %> 
 
-<%- include('partials/footer'); -%>
+    <% blogArray.forEach(function(blog){ %>
+        <h1>
+            <%= blog.blogTitle %>
+        </h1>
+
+        <p>
+            <%= blog.blogContent.substring(0,100) + "..." %>
+                <a href="/posts/<%= blog.blogTitle %>">Read More</a>
+        </p>
+
+        <% }) %> <%- include('partials/footer'); -%>
