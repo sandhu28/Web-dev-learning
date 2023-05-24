@@ -16,5 +16,5 @@ function divide(a, b) {
     return a / b;
 }
 
-export default add;
-export { multiply, subtract, divide };
+// export default add;
+export { add, multiply, subtract, divide };

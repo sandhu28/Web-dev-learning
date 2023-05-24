@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App";
-import add, { multiply, subtract, divide } from "./calculator"
+import { add, multiply, subtract, divide } from "./calculator"
+
+import * as cal from "./calculator"
 
 // ReactDOM.render(
 //     <App />,
