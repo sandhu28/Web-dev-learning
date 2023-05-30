@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
+import { Zoom } from "@mui/material";
+import { click } from "@testing-library/user-event/dist/click";
+
+
 
 function CreateArea(props) {
     const [note, setNote] = useState({
         title: "",
         content: ""
     });
+    const [clicked, setClick] = useState(false);
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -26,23 +33,32 @@ function CreateArea(props) {
         event.preventDefault();
     }
 
+    function handleClick(event) {
+        setClick(true);
+    }
+
     return (
         <div>
-            <form>
-                <input
+            <form className="create-note">
+                {clicked && <input
                     name="title"
                     onChange={handleChange}
                     value={note.title}
                     placeholder="Title"
-                />
+                />}
                 <textarea
                     name="content"
+                    onClick={handleClick}
                     onChange={handleChange}
                     value={note.content}
                     placeholder="Take a note..."
-                    rows="3"
+                    rows={clicked ? "3" : "1"}
                 />
-                <button onClick={submitNote}>Add</button>
+                <Zoom in={clicked && true}>
+                    <Fab onClick={submitNote}>
+                        <AddIcon />
+                    </Fab>
+                </Zoom>
             </form>
         </div>
     );
